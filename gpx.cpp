@@ -180,6 +180,17 @@ void gpx::CalculateIndicePointsDalle(Mnt &unMnt)
 
 
 }
+//construit une fausse trajectoire pour le test
+void gpx::CalculateTrajectoire(Mnt &unMnt)
+{
+    for(int i=0;i<gpx_dalle.id_sesPoints.size();i++)
+    {
+        trajectoire.push_back(unMnt.lesPoints[gpx_dalle.id_sesPoints[i]-1]);
+
+    }
+
+
+}
 
 void gpx::BuildTriangles(Mnt &unMnt)
 {

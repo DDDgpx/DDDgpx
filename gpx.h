@@ -29,11 +29,13 @@ public:
     float maxlon;
     float minZ;
     float maxZ;
-
+    vector<Point> trajectoire;
     Dalle gpx_dalle;
     void CalculateBoundsDalle(Mnt& unMnt); ////initialise dalle.debut par le point de MNT le plus proche à l'extrémité min du GPX
     void CalculateIndicePointsDalle(Mnt& unMnt); ////initialise dalle.debut par le point de MNT le plus proche à l'extrémité min du GPX
     void BuildTriangles(Mnt &unMnt);
+    //
+    void CalculateTrajectoire(Mnt &unMnt);
 
 };
 

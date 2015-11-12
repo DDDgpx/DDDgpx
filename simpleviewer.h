@@ -1,10 +1,11 @@
 #ifndef SIMPLEVIEWER_H
 #define SIMPLEVIEWER_H
 
-#include <QGLViewer/qglviewer.h>
+
 #include "mnt.h"
 #include "gpx.h"
 #include <triangle.h>
+#include <randonneur.h>
 
 class SimpleViewer : public QGLViewer
 {
@@ -12,6 +13,7 @@ class SimpleViewer : public QGLViewer
 protected :
   virtual void draw();
   virtual void init();
+  void animate();
   virtual QString helpString() const;
 public :
 
@@ -20,6 +22,7 @@ public :
     SimpleViewer(QWidget *parent = 0);
     Mnt *leMnt = NULL;
     gpx *leGpx = NULL;
+    Randonneur *gentilhomme= NULL;
 
 
 };

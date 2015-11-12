@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     triangle.cpp \
     dalle.cpp \
     gpx.cpp \
-    help.cpp
+    help.cpp \
+    randonneur.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     triangle.h \
     dalle.h \
     gpx.h \
-    help.h
+    help.h \
+    randonneur.h
 
 
 FORMS    += mainwindow.ui

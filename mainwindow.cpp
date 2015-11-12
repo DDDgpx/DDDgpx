@@ -83,27 +83,27 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
 
     //bounds de GPX : voir Romain...
         Point BoundsMin;
-        BoundsMin.x=900111;
-                //
+        BoundsMin.x=0.1;
+                //900111
                 //;
-                //;0.1
+                //;
                 //980000
-        BoundsMin.y=1900026;
-                //
+        BoundsMin.y=-0.75;
+                //1900026
                 //;
-                //;-0.75
+                //;
                 //1904000
         Point BoundsMax;
-        BoundsMax.x= 900511;
-                //
+        BoundsMax.x= 0.9;
+                //900511
                 //;
-                //;0.9
+                //;
                 //990000
                 ////
-        BoundsMax.y= 1900126;
-                //
+        BoundsMax.y= -0.1;
+                //1900126
                 //;
-                //;-0.1
+                //;
                 //1940000
                 ////
         ui->widgetZoneVisu->leGpx=new gpx();
@@ -117,6 +117,13 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
         ui->widgetZoneVisu->leGpx->CalculateIndicePointsDalle(*(ui->widgetZoneVisu->leMnt));
 
         ui->widgetZoneVisu->leGpx->BuildTriangles(*(ui->widgetZoneVisu->leMnt));
+        //Construire la trajectoire
+        ui->widgetZoneVisu->leGpx->CalculateTrajectoire(*(ui->widgetZoneVisu->leMnt));
+
+        //
+        ui->widgetZoneVisu->gentilhomme = new Randonneur();
+        ui->widgetZoneVisu->gentilhomme->randonnee=ui->widgetZoneVisu->leGpx->trajectoire;
+        ui->widgetZoneVisu->gentilhomme->init();
 
 
 }

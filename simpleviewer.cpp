@@ -30,7 +30,7 @@ void SimpleViewer::draw()
 
       float ratio;
       float delta=leGpx->gpx_dalle.z_max_ses_triangles-leGpx->gpx_dalle.z_min_ses_triangles;
-      glBegin(GL_TRIANGLES);
+     /*glBegin(GL_TRIANGLES);
 
             for(int i=0; i<leGpx->gpx_dalle.sesTriangles.size();i++)
             {
@@ -48,14 +48,48 @@ void SimpleViewer::draw()
             }
 
       glEnd();
+      //draw trajectoire
+     /* if(!leGpx->trajectoire.empty())
+      {
+          glPointSize(20.0);
+          glColor3f(1.0f, 0.0f, 0.0f);
+          glBegin(GL_POINTS);
+           for(int i=0; i<leGpx->trajectoire.size();i++)
+           {
+               glVertex3f(leGpx->trajectoire[i].x,leGpx->trajectoire[i].y,leGpx->trajectoire[i].z);
+
+           }
+           glEnd();
+
+      }*/
+
+      glBegin(GL_POINTS);
+          gentilhomme->draw();
+      glEnd();
+
     }
 
+    //draw gentil homme
+
+}
+void SimpleViewer::animate()
+{
+ if(leGpx!=NULL) gentilhomme->bouge();
 }
 
 void SimpleViewer::init()
 {
   // Restore previous viewer state.
   restoreStateFromFile();
+
+
+  glDisable(GL_LIGHTING);
+
+
+    glPointSize(10.0);
+    //setGridIsDrawn();
+    help();
+    startAnimation();
 
 }
 
@@ -69,5 +103,6 @@ SimpleViewer::~SimpleViewer()
 {
     delete leMnt;
     delete leGpx;
+    delete gentilhomme;
 }
 
