@@ -2,6 +2,7 @@
 #define RANDONNEUR_H
 #include <QGLViewer/qglviewer.h>
 #include "Point.h"
+
 class Randonneur
 {
 public:
@@ -14,6 +15,10 @@ public:
    private :
      qglviewer::Vec speed_, pos_;
      int age_, ageMax_;
+     double pasX;
+     double pasY;
+     double pasZ;
+
 
      int i;
 };

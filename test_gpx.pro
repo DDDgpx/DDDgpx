@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     dalle.cpp \
     gpx.cpp \
     help.cpp \
-    randonneur.cpp
+    randonneur.cpp \
+    rouler.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
     dalle.h \
     gpx.h \
     help.h \
-    randonneur.h
+    randonneur.h \
+    rouler.h
 
 
 FORMS    += mainwindow.ui

@@ -1,0 +1,103 @@
+#include "rouler.h"
+
+rouler::rouler()
+{
+}
+void Train::rouler(CGraphe graphe)
+{
+
+    int idArcAlea;
+    int iterationSommet=0;
+    int iterationAnnex=0;
+    CArc prochainArc;
+    CPoint3f prochain_point1;
+    CPoint3f prochain_point2;
+    CPoint3f prochain_point3;
+
+    double dX,dY,dZ,norm1;
+    double dXw1,dYw1,dZw1,normw1,dXw2,dYw2,dZw2,normw2;
+
+    ////si le mobile est autorisé à rouler
+    if (!stopped)
+    {
+        //Déplacement jusqu'au point sommet
+        if (pointAnnexSuiv<graphe.getListPointAnnexeArc(arcActuel).size())
+        {
+            CPoint3f
+prochPA=graphe.getListPointAnnexeArc(arcActuel).at(pointAnnexSuiv);
+           // prochain_point1 = prochPA;
+           if (iterationAnnex==0)
+            {norm1=sqrt(pow(prochPA.X-positionActuel.X,2)+pow(prochPA.Y-positionActuel.Y,2)+pow(prochPA.Z-positionActuel.Z,2));
+             dX=(prochPA.X-positionActuel.X)/norm1*vitesse;
+             dY=(prochPA.Y-positionActuel.Y)/norm1*vitesse;
+             dZ=(prochPA.Z-positionActuel.Z)/norm1*vitesse;
+             angleXY = atan(dY/dX)*360/2/3.14;
+             angleZ = atan(dZ/sqrt(pow(dX,2)+pow(dY,2)))*360/2/3.14;
+
+            }
+
+        //déplacement train
+        positionActuel.X=positionActuel.X+dX;
+        positionActuel.Y=positionActuel.Y+dY;
+        positionActuel.Z=positionActuel.Z+dZ;
+        stopped=false;
+        wagon1.roulerw(graphe,arcSuiv);
+
+        wagon2.roulerw(graphe,arcSuiv);
+
+
+        //Si on est aux alentours d'un PA, on passe au suivant
+        if (fabs(positionActuel.X-prochPA.X)<0.1){
+            pointAnnexSuiv+=1;
+            iterationAnnex=0;
+        }
+        iterationSommet=0;
+        iterationAnnex++;
+        }
+        else
+        {
+            //on se déplace
+            if(iterationSommet==0)
+            {
+                        norm1=sqrt(pow(prochSommet.X-positionActuel.X,2)+pow(prochSommet.Y-positionActuel.Y,2)+pow(prochSommet.Z-positionActuel.Z,2));
+                        dX=(prochSommet.X-positionActuel.X)/norm1*vitesse;
+                        dY=(prochSommet.Y-positionActuel.Y)/norm1*vitesse;
+                        dZ=(prochSommet.Z-positionActuel.Z)/norm1*vitesse;
+                        angleXY = atan(dY/dX)*360/2/3.14;
+                        angleZ =
+atan(dZ/sqrt(pow(dX,2)+pow(dY,2)))*360/2/3.14;
+
+            }
+
+            positionActuel.X=positionActuel.X+dX;
+            positionActuel.Y=positionActuel.Y+dY;
+            positionActuel.Z=positionActuel.Z+dZ;
+            stopped=false;
+            wagon1.roulerw(graphe,arcSuiv);
+            wagon2.roulerw(graphe,arcSuiv);
+
+              //Initialisation de la position par les coordonnees du sommet
+            if (fabs(positionActuel.X-prochSommet.X)<0.1){
+            arcActuel = arcSuiv;
+            sommetCourant=prochSommet;
+
+            prochSommet=graphe.list_sommet.at(arcActuel.id_sommet_fin);
+            idArcAlea =
+rand()%graphe.getListArcSortantDuSommet(prochSommet).size();
+            arcSuiv =
+graphe.getListArcSortantDuSommet(prochSommet).at(idArcAlea);
+            pointAnnexSuiv=0;
+            positionActuel.X=sommetCourant.X;
+            positionActuel.Y=sommetCourant.Y;
+            positionActuel.Z=sommetCourant.Z;
+
+            }
+
+            stopped=false;
+
+            iterationAnnex=0;
+            iterationSommet++;
+
+        }
+    }
+}

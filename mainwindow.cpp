@@ -123,7 +123,7 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
         //
         ui->widgetZoneVisu->gentilhomme = new Randonneur();
         ui->widgetZoneVisu->gentilhomme->randonnee=ui->widgetZoneVisu->leGpx->trajectoire;
-        ui->widgetZoneVisu->gentilhomme->init();
+        //ui->widgetZoneVisu->gentilhomme->init();
 
 
 }
