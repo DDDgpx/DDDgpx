@@ -82,30 +82,27 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
 
 
     //bounds de GPX : voir Romain...
-        Point BoundsMin;
+         Point BoundsMin;
+        BoundsMin.x=900111;
+
+        BoundsMin.y=1900026;
+
+        Point BoundsMax;
+        BoundsMax.x= 900511;
+
+        BoundsMax.y= 1900126;
+
+      /*  Point BoundsMin;
         BoundsMin.x=0.1;
-                //900111
-                //;
-                //;
-                //980000
+
         BoundsMin.y=-0.75;
-                //1900026
-                //;
-                //;
-                //1904000
+
         Point BoundsMax;
         BoundsMax.x= 0.9;
-                //900511
-                //;
-                //;
-                //990000
-                ////
-        BoundsMax.y= -0.1;
-                //1900126
-                //;
-                //;
-                //1940000
-                ////
+
+        BoundsMax.y= -0.1;*/
+
+
         ui->widgetZoneVisu->leGpx=new gpx();
         ui->widgetZoneVisu->leGpx->loadGpx("");
         ui->widgetZoneVisu->leGpx->minlat=BoundsMin.y;

@@ -30,7 +30,7 @@ void SimpleViewer::draw()
 
       float ratio;
       float delta=leGpx->gpx_dalle.z_max_ses_triangles-leGpx->gpx_dalle.z_min_ses_triangles;
-     /*glBegin(GL_TRIANGLES);
+     glBegin(GL_TRIANGLES);
 
             for(int i=0; i<leGpx->gpx_dalle.sesTriangles.size();i++)
             {
