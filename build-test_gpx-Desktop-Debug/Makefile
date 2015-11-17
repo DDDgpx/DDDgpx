@@ -388,6 +388,8 @@ triangle.o: ../DDDgpx/triangle.cpp ../DDDgpx/triangle.h
 
 gpx.o: ../DDDgpx/gpx.cpp ../DDDgpx/gpx.h \
 		../DDDgpx/Point.h \
+		../DDDgpx/mnt.h \
+		../DDDgpx/triangle.h \
 		../DDDgpx/help.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gpx.o ../DDDgpx/gpx.cpp
 
