@@ -62,8 +62,8 @@ void SimpleViewer::draw()
            glEnd();
 
       }*/
+        glBegin(GL_POINTS);
 
-      glBegin(GL_POINTS);
           gentilhomme->draw();
       glEnd();
 

@@ -29,6 +29,7 @@ void Randonneur::bouge()
 void Randonneur::draw()
 {
   glColor3f(1, 0,0);
+
   glVertex3fv(pos_);
 }
 
@@ -47,37 +48,30 @@ void Randonneur::init()
 
     if(i<randonnee.size()-1)
     {
-        float vitesse=0.5;
+        float vitesse=0.3;
         float normX=randonnee[i+1].x-pos_.x;
         float normY=randonnee[i+1].y-pos_.y;
         float normZ=randonnee[i+1].z-pos_.z;
-
-            //sqrt(pow(randonnee[i+1].x-pos_.x,2)+pow(randonnee[i+1].y-pos_.y,2)+pow(randonnee[i+1].z-pos_.z,2));
 
 
          if(normX==0)
             pasX=0;
          else
-            pasX=(randonnee[i+1].x-pos_.x)/fabs(normX)*vitesse;
+            pasX=(randonnee[i+1].x-pos_.x)*vitesse;
 
          if(normY==0)
             pasY=0;
          else
-            pasY=(randonnee[i+1].y-pos_.y)/fabs(normY)*vitesse;
+            pasY=(randonnee[i+1].y-pos_.y)*vitesse;
          if(normZ==0)
             pasZ=0;
          else
-            pasZ=(randonnee[i+1].z-pos_.z)/fabs(normZ)*vitesse;
+            pasZ=(randonnee[i+1].z-pos_.z)*vitesse;
     }
 
     }
 
  i++;
-        /*float angle = 2.0 * M_PI * rand() / RAND_MAX;
-        float norm  = 0.04 * rand() / RAND_MAX;
-        speed_ = qglviewer::Vec(norm*cos(angle), norm*sin(angle), rand() / static_cast<float>(RAND_MAX) );
-        age_ = 0;
-        ageMax_ = 50 + static_cast<int>(100.0 * rand() / RAND_MAX);*/
 
 
 

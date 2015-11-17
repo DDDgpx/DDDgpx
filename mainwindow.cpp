@@ -100,8 +100,8 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
         Point BoundsMax;
         BoundsMax.x= 0.9;
 
-        BoundsMax.y= -0.1;*/
-
+        BoundsMax.y= -0.1;
+*/
 
         ui->widgetZoneVisu->leGpx=new gpx();
         ui->widgetZoneVisu->leGpx->loadGpx("");
