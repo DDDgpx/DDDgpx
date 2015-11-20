@@ -6,7 +6,7 @@
 #include <QCheckBox>
 #include<QVBoxLayout>
 #include <fstream>
-
+#include "help.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -62,6 +62,7 @@ void MainWindow::on_Action_ouvrirMNT_triggered()
 
     ui->widgetZoneVisu->leMnt->loadMnt(fileName.toStdString());
 
+    help::creerGpx(*(ui->widgetZoneVisu->leMnt));
 
 }
 
@@ -83,14 +84,14 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
 
     //bounds de GPX : voir Romain...
          Point BoundsMin;
-        BoundsMin.x=900111;
+        BoundsMin.x=0;
 
-        BoundsMin.y=1900026;
+        BoundsMin.y=0;
 
         Point BoundsMax;
-        BoundsMax.x= 900511;
+        BoundsMax.x= 2;
 
-        BoundsMax.y= 1900126;
+        BoundsMax.y= 1.75;
 
       /*  Point BoundsMin;
         BoundsMin.x=0.1;
@@ -104,17 +105,14 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
 */
 
         ui->widgetZoneVisu->leGpx=new gpx();
-        ui->widgetZoneVisu->leGpx->loadGpx("");
-        ui->widgetZoneVisu->leGpx->minlat=BoundsMin.y;
-        ui->widgetZoneVisu->leGpx->minlon=BoundsMin.x;
-        ui->widgetZoneVisu->leGpx->maxlat=BoundsMax.y;
-        ui->widgetZoneVisu->leGpx->maxlon=BoundsMax.x;
+        ui->widgetZoneVisu->leGpx->loadGpx(fileName);
         ui->widgetZoneVisu->leGpx->CalculateBoundsDalle(*(ui->widgetZoneVisu->leMnt));
 
         ui->widgetZoneVisu->leGpx->CalculateIndicePointsDalle(*(ui->widgetZoneVisu->leMnt));
 
         ui->widgetZoneVisu->leGpx->BuildTriangles(*(ui->widgetZoneVisu->leMnt));
         //Construire la trajectoire
+        ui->widgetZoneVisu->leGpx->setZGpx(*(ui->widgetZoneVisu->leMnt));
         ui->widgetZoneVisu->leGpx->CalculateTrajectoire(*(ui->widgetZoneVisu->leMnt));
 
         //

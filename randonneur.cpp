@@ -48,7 +48,7 @@ void Randonneur::init()
 
     if(i<randonnee.size()-1)
     {
-        float vitesse=0.3;
+        float vitesse=0.1;
         float normX=randonnee[i+1].x-pos_.x;
         float normY=randonnee[i+1].y-pos_.y;
         float normZ=randonnee[i+1].z-pos_.z;

@@ -6,7 +6,9 @@
 #include "dalle.h"
 #include <string>
 #include "mnt.h"
-
+#include <QDebug>
+#include <QString>
+#include <QFile>
 
 using namespace std;
 
@@ -14,19 +16,25 @@ class gpx
 {
 public:
     gpx();
-    void loadGpx(std::string fileName);
+    void loadGpx(QString fileName);
 
     std::vector<Point> ptsGpx;
 
-    Triangle troisLesPlusProches(Mnt& unMnt, Point p);
+    int dansQuelTriangle(Mnt& unMnt, Point p);
     bool estDansTriangle(Point p, Mnt& unMnt, int i);
     bool conditionDansTrianglePair(Point p, Mnt& mnt, int i);
     bool conditionDansTriangleImpair(Point p, Mnt& mnt, int i);
+    void trouveInterSegment(Mnt mnt, Point a, int p);
+    void inter(Mnt& mnt);
+    double dist(Point a, Point b);
+    void setZGpx(Mnt& mnt);
+    double setZInter(Mnt& mnt, Point c, Point p1, Point p2, Point p3, int indTri);
 
-    float minlat;
-    float maxlat;
-    float minlon;
-    float maxlon;
+
+    double minlat;
+    double maxlat;
+    double minlon;
+    double maxlon;
     float minZ;
     float maxZ;
     vector<Point> trajectoire;
