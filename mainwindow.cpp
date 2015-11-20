@@ -48,7 +48,7 @@ void MainWindow::on_Action_ouvrirMNT_triggered()
 
 
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open MNT"), "/home/gtsi/DDDgpx/", tr("All files  (*.xyz)"));
+        tr("Open MNT"), "/home/gtsi/DDDgpx//home/gtsi/Téléchargements/", tr("All files  (*.xyz)"));
     if(fileName=="") return;
 
     cbMNT=new QCheckBox(fileName,this);
@@ -71,7 +71,7 @@ void MainWindow::on_actionOuvrir_GPX_triggered()
 
     if(ui->widgetZoneVisu->leMnt==NULL) return;
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open MNT"), "/home/gtsi/DDDgpx/", tr("All files  (*.gpx)"));
+        tr("Open MNT"), "/home/gtsi/DDDgpx//home/gtsi/Téléchargements/", tr("All files  (*.gpx)"));
     if(fileName=="") return;
 
     cbGPX=new QCheckBox(fileName,this);

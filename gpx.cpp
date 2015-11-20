@@ -50,6 +50,7 @@ void gpx::loadGpx(  QString filename){
             }
     }
 }
+//Trouve le Z pour les points du GPX
 void gpx::setZGpx(Mnt& mnt) {
     for (int i = 0; i<ptsGpx.size();i++){
         int indTri = dansQuelTriangle(mnt, ptsGpx[i]);
@@ -58,45 +59,13 @@ void gpx::setZGpx(Mnt& mnt) {
             Point p2 = mnt.lesPoints[gpx_dalle.sesTriangles[indTri].id_Sommet2 - 1];
             Point p3 = mnt.lesPoints[gpx_dalle.sesTriangles[indTri].id_Sommet3 - 1];
 
-            if(indTri%2==0){
-                double xa = p1.getX();
-                double ya = ptsGpx[i].getY();
-                Point a = Point(xa, ya, 0);
-                double za = (p3.getZ()*dist(a, p1)+p1.getZ()*dist(a, p3))/dist(p1, p3);
-                a.setZ(za);
-                double xb = p3.getX() + mnt.pasX/mnt.pasY * (ptsGpx[i].getY()-p3.getY());
-                double yb = ptsGpx[i].getY();
-                Point b = Point(xb, yb, 0);
-                double zb = (p3.getZ()*dist(b, p2)+p2.getZ()*dist(b, p3))/dist(p2, p3);
-                b.setZ(zb);
-                if (xa!=xb || ya!=yb){
-                    ptsGpx[i].z = (a.getZ()*dist(ptsGpx[i], b)+b.getZ()*dist(ptsGpx[i], a))/dist(a, b);
-                }
-                else {
-                    ptsGpx[i].z = za;
-                }
-            }
-            else{
-                double xa = p1.getX();
-                double ya = ptsGpx[i].getY();
-                Point a = Point(xa, ya, 0);
-                double za = (p3.getZ()*dist(a, p1)+p1.getZ()*dist(a, p3))/dist(p1, p3);
-                a.setZ(za);
-                double xb = p2.getX() + mnt.pasX/mnt.pasY * (ptsGpx[i].getY()-p2.getY());
-                double yb = ptsGpx[i].getY();
-                Point b = Point(xb, yb, 0);
-                double zb = (p1.getZ()*dist(b, p2)+p2.getZ()*dist(b, p1))/dist(p2, p1);
-                b.setZ(zb);
-                if (xa!=xb || ya!=yb){
-                    ptsGpx[i].z = (a.getZ()*dist(ptsGpx[i], b)+b.getZ()*dist(ptsGpx[i], a))/dist(a, b);
-                }
-                else {
-                    ptsGpx[i].z = za;
-                }
-            }
+            double zinter;
+            zinter=setZInter(mnt, ptsGpx[i], p1, p2, p3, indTri);
+            ptsGpx[i].z=zinter;
         }
     }
 }
+//calcul de la distance entre deux points (ne tient pas compte de Z)
 double gpx::dist(Point a, Point b) {
     return (sqrt(pow(a.getX()-b.getX(), 2)+pow(a.getY()-b.getY(), 2)));
 }
@@ -143,6 +112,7 @@ bool gpx::conditionDansTriangleImpair(Point p, Mnt& mnt, int i) {
              && ( p.getY() > p2.getY())
              && (mnt.pasX * p.getY() - mnt.pasY * p.getX() <= mnt.pasX * p2.getY() - mnt.pasY * p2.getX() +1/1000000) );
 }
+//trouve la prochaine intersection dans le sens de parcours du GPX (se rappelle pour trouver celle qui suit)
 void gpx::trouveInterSegment(Mnt mnt, Point a, int p){
     //on trouve quel triangle est notre point de départ
     int indTri = dansQuelTriangle(mnt, a);
@@ -200,18 +170,19 @@ void gpx::trouveInterSegment(Mnt mnt, Point a, int p){
         Point inter3;
 
         if (indTri%2==0) {
-
+            //premiere intersection, sur le côté "en haut"
             interY1=y2;
-            if (vy != 0){
+            if (vy != 0){ //on verifie si l'intersection existe effectivement
                 interX1=(vx*interY1-vx*ya+vy*xa)/vy;
                 inter1 = Point(interX1, interY1, 0);
                 interZ1=setZInter(mnt, inter1, p1, p2, p3, indTri);
                 inter1.setZ(interZ1);
             }
-            else {
+            else { //sinon on met un point à l'origine pour éviter les erreurs
                 interX1=0;
                 inter1 = Point(interX1, interY1, 0);
             }
+            //deuxieme intersection, sur le côté "gauche"
             interX2=x3;
             if (vx != 0) {
                 interY2=(vy*interX2+vx*ya-vy*xa)/vx;
@@ -223,6 +194,7 @@ void gpx::trouveInterSegment(Mnt mnt, Point a, int p){
                 interY2=0;
                 inter2 = Point(interX2, interY2, 0);
             }
+            //troisieme intersection, sur la diagonale
             if (py*vx-vy*px!=0){
                 interX3=(vx*px*y3-vx*py*x3+vy*xb*px-vx*px*yb)/(px*vy-py*vx);
                 interY3=(px*y3-py*x3+py*interX3)/px;
@@ -242,8 +214,10 @@ void gpx::trouveInterSegment(Mnt mnt, Point a, int p){
             int aAjouter = -1;
             for(int i=0; i<3;i++){
                 if(vx!=0 && vy!=0){
+                    //on vérifie si le point se trouve bien dans le sens du parcours vers le prochain point du GPX
                     if ( (xb-inter[i].getX())/vx>0 && (yb-inter[i].getY())/vy>0 && (inter[i].getX()-xa)/vx>0 && (inter[i].getY()-ya)/vy>0 && inter[i].getZ()<= mnt.MAX_MNT.z){
                         float d = dist(a, inter[i]);
+                        //on garde le plus proche du point actuelle dans le sens de parcours
                         if (d<dmin){
                             aAjouter = i;
                         }
@@ -348,6 +322,7 @@ void gpx::trouveInterSegment(Mnt mnt, Point a, int p){
         }
     }
 }
+//Etablie la trajectoire du point (push les points du gpx et trouve toutes les intersections)
 void gpx::inter(Mnt& mnt) {
     for(int i = 0; i<ptsGpx.size()-1; i++){
         if (ptsGpx[i].getX() >= gpx_dalle.debut.getX() && ptsGpx[i].getX() <= gpx_dalle.fin.getX() &&
@@ -504,11 +479,12 @@ void gpx::BuildTriangles(Mnt &mnt)
 
         }
 }
-
+//Trouve Z pour les points d'intersections
 double gpx::setZInter(Mnt& mnt,  Point c, Point p1, Point p2, Point p3, int indTri) {
 
 
-            if(indTri%2==0){
+          /*  if(indTri%2==0){
+                //on
                 double xa = p1.getX();
                 double ya = c.getY();
                 Point a = Point(xa, ya, 0);
@@ -545,5 +521,21 @@ double gpx::setZInter(Mnt& mnt,  Point c, Point p1, Point p2, Point p3, int indT
                 else {
                     return za;
                 }
-            }
+            }*/
+    double dist1=dist(c,p1);
+    double dist2=dist(c,p2);
+    double dist3=dist(c,p3);
+    double tolerance=1;
+    if(dist1<tolerance)
+        return p1.z;
+    if(dist2<tolerance)
+        return p2.z;
+    if(dist3<tolerance)
+        return p3.z;
+    double zinterpol=((p1.z/dist1)+(p2.z/dist2)+(p3.z/dist3))/((1/dist1)+(1/dist2)+(1/dist3));
+     c.z=zinterpol;
+     return zinterpol;
+
+
+
 }
