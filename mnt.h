@@ -23,6 +23,7 @@ public:
     qglviewer::Vec MAX_MNT;
     float pasX;
     float pasY;
+    bool isDisplayed=false;
 
     int nC;
     int nL;

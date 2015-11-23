@@ -11,7 +11,9 @@ public:
     void draw();
     void bouge();
     std::vector<Point> randonnee;
-     qglviewer::Vec speed_, pos_;
+     qglviewer::Vec nextSommet_, pos_;
+     float saVitesse;
+
 
    private :
 
